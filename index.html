@@ -1,67 +1,128 @@
 <!DOCTYPE html>
+<html lang="ru">
 <head>
-<title>Page 1</title>
-
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<style type="text/css">
-<!--
-	html, body {
-            height: 100%;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мое резюме</title>
+    <style>
+        * {
+            box-sizing: border-box;
             margin: 0;
-            background-color: #FFFFFF;
-        }
-        p {
-            margin: 0; 
             padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-	p {margin: 0; padding: 0;}	.ft00{font-size:42px;font-family:TimesNewRomanPSMT;color:#000000;}
-	.ft01{font-size:24px;font-family:TimesNewRomanPSMT;color:#000000;}
-	.ft02{font-size:24px;font-family:TimesNewRomanPSMT;color:#009999;}
-	.ft03{font-size:30px;font-family:TimesNewRomanPSMT;color:#000000;}
-	.ft04{font-size:24px;font-family:ArialMT;color:#000000;}
-	.ft05{font-size:24px;line-height:28px;font-family:TimesNewRomanPSMT;color:#000000;}
--->
-</style>
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        header {
+            background: #4a6fa5;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .viewer-section {
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .pdf-container {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            height: 600px;
+            overflow: hidden;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .instructions {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: #4a6fa5;
+        }
+        
+        .instructions ul {
+            list-style-position: inside;
+            line-height: 1.6;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .pdf-container {
+                height: 400px;
+            }
+        }
+    </style>
 </head>
-<body bgcolor="#A0A0A0" vlink="blue" link="blue">
-<div id="page1-div" style="position:relative;width:1080px;height:810px;">
-<img width="1080" height="810" src="Резюме001.png" alt="background image"/>
-<p style="position:absolute;top:32px;left:49px;white-space:nowrap" class="ft00">Афонин&#160;Михаил</p>
-<p style="position:absolute;top:82px;left:49px;white-space:nowrap" class="ft01">Москва&#160;&#160;&#160;</p>
-<p style="position:absolute;top:41px;left:549px;white-space:nowrap" class="ft00">Контакты</p>
-<p style="position:absolute;top:95px;left:579px;white-space:nowrap" class="ft01">+7&#160;905&#160;475&#160;3138</p>
-<p style="position:absolute;top:124px;left:579px;white-space:nowrap" class="ft02"><a href="mailto:mafonin1312@gmail.com">mafonin1312@gmail.com</a></p>
-<p style="position:absolute;top:153px;left:579px;white-space:nowrap" class="ft01">@mesha193</p>
-<p style="position:absolute;top:234px;left:40px;white-space:nowrap" class="ft03">Образование</p>
-<p style="position:absolute;top:274px;left:47px;white-space:nowrap" class="ft04">•</p>
-<p style="position:absolute;top:274px;left:80px;white-space:nowrap" class="ft01">Российский</p>
-<p style="position:absolute;top:274px;left:231px;white-space:nowrap" class="ft01">химико-технологический</p>
-<p style="position:absolute;top:274px;left:520px;white-space:nowrap" class="ft01">университет,</p>
-<p style="position:absolute;top:274px;left:680px;white-space:nowrap" class="ft01">Бакалавр.</p>
-<p style="position:absolute;top:274px;left:808px;white-space:nowrap" class="ft01">Факультет</p>
-<p style="position:absolute;top:274px;left:944px;white-space:nowrap" class="ft01">цифровых</p>
-<p style="position:absolute;top:303px;left:80px;white-space:nowrap" class="ft05">технологий&#160;и&#160;химического&#160;инжиниринга.&#160;Информационные&#160;системы&#160;и&#160;технологии&#160;и<br/>Искусственный&#160;интеллекта.</p>
-<p style="position:absolute;top:360px;left:47px;white-space:nowrap" class="ft04">•</p>
-<p style="position:absolute;top:361px;left:80px;white-space:nowrap" class="ft01">«Цифровая</p>
-<p style="position:absolute;top:361px;left:223px;white-space:nowrap" class="ft01">кафедра»</p>
-<p style="position:absolute;top:361px;left:345px;white-space:nowrap" class="ft01">РХТУ</p>
-<p style="position:absolute;top:361px;left:433px;white-space:nowrap" class="ft01">им.</p>
-<p style="position:absolute;top:361px;left:495px;white-space:nowrap" class="ft01">Д.И.</p>
-<p style="position:absolute;top:361px;left:568px;white-space:nowrap" class="ft01">Менделеева</p>
-<p style="position:absolute;top:361px;left:718px;white-space:nowrap" class="ft01">профессиональная</p>
-<p style="position:absolute;top:361px;left:938px;white-space:nowrap" class="ft01">программа</p>
-<p style="position:absolute;top:390px;left:80px;white-space:nowrap" class="ft01">переподготовки&#160;«Прикладные&#160;инструменты&#160;и&#160;методы&#160;Искусственного&#160;интеллекта»</p>
-<p style="position:absolute;top:466px;left:40px;white-space:nowrap" class="ft03">Навыки</p>
-<p style="position:absolute;top:510px;left:51px;white-space:nowrap" class="ft04">•</p>
-<p style="position:absolute;top:510px;left:85px;white-space:nowrap" class="ft01">Свободное&#160;владение&#160;английским&#160;языком,&#160;C, Python,&#160;базовые&#160;знания&#160;bash,&#160;SQL,&#160;GIT</p>
-<p style="position:absolute;top:575px;left:52px;white-space:nowrap" class="ft03">О себе</p>
-<p style="position:absolute;top:614px;left:44px;white-space:nowrap" class="ft05">
-    Являюсь студентом второго курса. В период 9-11 класса изучал python, на первом курсе <br/>
-    университета язык программирования C. Выполнял лабораторные работы, осваивал приёмы <br/>
-    (список, обратная матрица, хэш таблица, поиск в ширину, очередь) на языках python и C. <br/>
-    Самостоятельно изучаю SQL. Проходил обучение в школе 21 от сбера. Регулярно участвую <br/>
-    в различных онлайн соревнованиях, хакатонах. Огромное желание продолжать работать, <br/>
-    изучать новое.
-</p>
+<body>
+    <div class="container">
+        <header>
+            <h1>Мое резюме</h1>
+            <p class="description">Ознакомьтесь с моей профессиональной историей</p>
+        </header>
+        
+        <section class="viewer-section">
+            <div class="pdf-container">
+                
+                <iframe id="pdf-viewer" src="Резюме.pdf"></iframe>
+            </div>
+        </section>
+        
+
+    </div>
+    
+    <footer>
+        <p>© 2023 Мое резюме</p>
+    </footer>
 </body>
 </html>
