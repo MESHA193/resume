@@ -11,7 +11,7 @@
             width: 100%;
             overflow: hidden;
         }
-        #viewer {
+        iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -22,40 +22,7 @@
     </style>
 </head>
 <body>
-    <div id="viewer"></div>
-
-    <!-- PDF.js библиотека -->
-    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
-    
-    <script>
-        // Укажите путь к вашему PDF файлу
-        const pdfUrl = 'Резюме.pdf';
-        
-        // Инициализация PDF.js
-        const pdfViewer = document.getElementById('viewer');
-        
-        // Загрузка и отображение PDF
-        pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
-            // Создаем контейнер для всех страниц
-            for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
-                pdf.getPage(pageNumber).then(function(page) {
-                    const viewport = page.getViewport({ scale: 1.5 });
-                    const canvas = document.createElement('canvas');
-                    const context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-                    
-                    // Рендерим страницу
-                    page.render({
-                        canvasContext: context,
-                        viewport: viewport
-                    });
-                    
-                    // Добавляем страницу в контейнер
-                    pdfViewer.appendChild(canvas);
-                });
-            }
-        });
-    </script>
+    <!-- Замените "Резюме.pdf" на имя вашего файла -->
+    <iframe src="Резюме.pdf#view=FitH"></iframe>
 </body>
 </html>
