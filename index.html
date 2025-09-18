@@ -37,12 +37,62 @@
             font-size: 28px;
         }
         
-        .pdf-viewer {
+        #pdf-viewer {
             width: 100%;
-            height: 1100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .canvas-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
             border: 1px solid #ddd;
             border-radius: 5px;
-            margin: 20px 0;
+            padding: 10px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .page-info {
+            font-size: 16px;
+            color: #7f8c8d;
         }
         
         .note {
@@ -53,8 +103,8 @@
         }
         
         @media (max-width: 768px) {
-            .pdf-viewer {
-                height: 600px;
+            .navigation {
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -63,22 +113,118 @@
     <h1>Мое резюме</h1>
     
     <div class="container">
-        <!-- Замените "resume.pdf" на имя вашего PDF-файла -->
-        <iframe class="pdf-viewer" src=Резюме.pdf#toolbar=0&view=FitH"></iframe>
+        <div id="pdf-viewer">
+            <!-- PDF страницы будут вставлены здесь -->
+        </div>
         
-        <p class="note">Если PDF не отображается, убедитесь, что файл находится в том же каталоге</p>
+        <div class="navigation">
+            <button id="prev-page" disabled>Назад</button>
+            <span class="page-info">Страница <span id="page-num">0</span> из <span id="page-count">0</span></span>
+            <button id="next-page">Вперед</button>
+        </div>
+        
+        <p class="note">Используйте кнопки навигации для просмотра всех страниц резюме</p>
     </div>
 
+    <!-- Подключаем PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script>
-        // Простой скрипт для улучшения совместимости с мобильными устройствами
-        document.addEventListener('DOMContentLoaded', function() {
-            const iframe = document.querySelector('.pdf-viewer');
+        // Укажите имя вашего PDF-файла
+        const pdfUrl = 'Резюме.pdf';
+        
+        // Настройка PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+        
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        const scale = 1.5;
+        
+        const pdfViewer = document.getElementById('pdf-viewer');
+        const pageNumDisplay = document.getElementById('page-num');
+        const pageCountDisplay = document.getElementById('page-count');
+        const prevButton = document.getElementById('prev-page');
+        const nextButton = document.getElementById('next-page');
+        
+        // Загрузка PDF
+        pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
+            pdfDoc = pdf;
+            pageCountDisplay.textContent = pdf.numPages;
             
-            // Настройка для мобильных устройств
-            if (window.innerWidth <= 768) {
-                iframe.style.height = '600px';
-            }
+            // Отображаем первую страницу
+            renderPage(pageNum);
+            
+            // Настройка навигации
+            prevButton.addEventListener('click', onPrevPage);
+            nextButton.addEventListener('click', onNextPage);
+        }).catch(function(error) {
+            console.error('Ошибка загрузки PDF:', error);
+            pdfViewer.innerHTML = '<p class="note">Ошибка загрузки PDF. Убедитесь, что файл "Резюме.pdf" находится в правильном месте.</p>';
         });
+        
+        // Функция отображения страницы
+        function renderPage(num) {
+            pageRendering = true;
+            
+            pdfDoc.getPage(num).then(function(page) {
+                const viewport = page.getViewport({ scale });
+                
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                
+                const renderTask = page.render(renderContext);
+                
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    pageNumDisplay.textContent = num;
+                    
+                    // Очищаем контейнер и добавляем canvas
+                    pdfViewer.innerHTML = '';
+                    const container = document.createElement('div');
+                    container.className = 'canvas-container';
+                    container.appendChild(canvas);
+                    pdfViewer.appendChild(container);
+                    
+                    // Обновляем состояние кнопок
+                    prevButton.disabled = num <= 1;
+                    nextButton.disabled = num >= pdfDoc.numPages;
+                    
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
+            });
+        }
+        
+        // Навигация по страницам
+        function onPrevPage() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+        
+        function onNextPage() {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+        
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
     </script>
 </body>
 </html>
